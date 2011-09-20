@@ -13,12 +13,11 @@ require 'rake'
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "knn"
   gem.homepage = "http://github.com/luan/knn"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = "Simple KNN implementation"
+  gem.description = "K-Nearest Neighbors implementation in ruby"
   gem.email = "luan@luansantos.com"
   gem.authors = ["Luan Haddad Ricardo dos Santos"]
   # dependencies defined in Gemfile
@@ -38,7 +37,7 @@ end
 
 task :default => :spec
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
