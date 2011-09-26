@@ -127,7 +127,8 @@ int sort_d(s_distance *arr, int elements) {
 
     if (L < R) {
       piv = arr[L];
-      if (i == MAX_LEVELS-1) return 0;
+      if (i == MAX_LEVELS-1)
+          return 0;
 
       while (L < R) {
         while (arr[R].distance >= piv.distance && L < R)
