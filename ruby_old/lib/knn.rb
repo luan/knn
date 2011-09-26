@@ -25,11 +25,11 @@ class Knn
   def run
     train unless @trained
 
-    testing = parse_file(@testing_file)[0, 5]
+    testing = parse_file(@testing_file)
 
     i = 0
     testing.each do |sample|
-      sample[:distance_vector] = Parallel.map(@training) do |base|
+      sample[:distance_vector] = @training.map do |base|
         {
           :distance => euclidean_distance(base[:features], sample[:features]),
           :type => base[:type]
