@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+#define LABELS 10
+
 typedef struct {
   float distance;
   int type;
@@ -12,8 +14,9 @@ int sort_d(s_distance *arr, int elements);
 float **parse_file(const char *filename, int *lines, int *features);
 float euclidean_distance(float *u, float *v, int size);
 void zero_array(int *arr, int size);
+void print_matrix(int **confusion_matrix);
 
-int main (int argc, char const* argv[]) {
+int main(int argc, char const* argv[]) {
   int training_lines, training_features;
   int testing_lines, testing_features;
   int k = atoi(argv[3]);
@@ -46,8 +49,14 @@ int main (int argc, char const* argv[]) {
 
   #pragma omp barrier
 
+  int **confusion_matrix = (int **) malloc(sizeof(int *) * training_lines);
   int *counts = (int *) malloc(sizeof(int) * training_lines);
   int errors = 0;
+
+  for (i = 0; i < LABELS; i++) {
+    confusion_matrix[i] = (int *) malloc(sizeof(int) * LABELS);
+    zero_array(confusion_matrix[i], LABELS);
+  }
 
   for (i = 0; i < testing_lines; i++) {
     zero_array(counts, training_lines);
@@ -61,11 +70,14 @@ int main (int argc, char const* argv[]) {
 
     int should = (int) testing[i][training_features];
 
-    if (max != should)
+    if (max != should) {
       errors++;
+    }
+    confusion_matrix[should][max]++;
   }
 
   printf("errors: %d (%.2f%%)\n", errors, ((float) errors / testing_lines) * 100);
+//  print_matrix(confusion_matrix);
 
   return 0;
 }
@@ -97,6 +109,19 @@ float **parse_file(const char *filename, int *lines, int *features) {
   }
 
   return db;
+}
+
+void print_matrix(int **confusion_matrix) {
+  int i, j;
+
+  printf ("\tSHOULD X RESULT\n");
+
+  for (i = 0; i < LABELS; i++) {
+    for (j = 0; j < LABELS; j++) {
+      printf ("%02d ", confusion_matrix[i][j]);
+    }
+    printf ("\n");
+  }
 }
 
 float euclidean_distance(float *u, float *v, int size) {
