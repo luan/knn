@@ -76,7 +76,8 @@ int main(int argc, char const* argv[]) {
     confusion_matrix[should][max]++;
   }
 
-  printf("errors: %d (%.2f%%)\n", errors, ((float) errors / testing_lines) * 100);
+  printf("hit: %d (%.2f%%); ", testing_lines - errors, 100 - ((float) errors / testing_lines) * 100);
+  printf("miss: %d (%.2f%%)\n", errors, ((float) errors / testing_lines) * 100);
 //  print_matrix(confusion_matrix);
 
   return 0;
@@ -178,4 +179,3 @@ int sort_d(s_distance *arr, int elements) {
   }
   return 1;
 }
-
